@@ -1,0 +1,12 @@
+# See https://github.com/ruanbekker/rbkr-order-processing-system-microservices
+#
+services:
+  notification-service:
+    container_name: notification-service
+    build: .
+    environment:
+      - KAFKA_BROKERS=kafka:9092
+
+networks:
+  ops:
+    external: true
