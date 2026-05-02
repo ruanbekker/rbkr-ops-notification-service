@@ -3,6 +3,8 @@ package service
 import (
 	"encoding/json"
 	"log"
+
+    "github.com/ruanbekker/rbkr-ops-notification-service/internal/metrics"
 )
 
 type NotificationService struct{}
@@ -31,6 +33,8 @@ func (s *NotificationService) Handle(topic string, msg []byte) {
 			return
 		}
 
+		metrics.NotificationsSent.Inc()
+
 		log.Printf("📦 Order %s reserved successfully!\n", e.OrderID)
 
 	case "order_failed":
@@ -39,6 +43,8 @@ func (s *NotificationService) Handle(topic string, msg []byte) {
 			log.Println("parse error:", err)
 			return
 		}
+
+		metrics.NotificationsSent.Inc()
 
 		log.Printf("❌ Order %s failed: %s\n", e.OrderID, e.Reason)
 	}
